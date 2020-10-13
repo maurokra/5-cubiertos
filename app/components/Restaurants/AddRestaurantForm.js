@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, Alert, Dimensions } from "react-native";
+import { View, StyleSheet, ScrollView, Alert, Dimensions } from "react-native";
 import { Icon, Avatar, Image, Input, Button } from "react-native-elements";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
@@ -64,9 +64,9 @@ export default function AddRestaurantForm(props) {
                         navigation.navigate("restaurants")
                     }).catch(() => {
                         setIsLoading(false);
-                        toastRef.current.show("Error al subir el restaurante, intentolo mas tarde!.")
-                    })
-            })
+                        toastRef.current.show("Error al subir el restaurante, intentolo mas tarde!.");
+                    });
+            });
         }
     };
 
@@ -87,7 +87,7 @@ export default function AddRestaurantForm(props) {
                         .getDownloadURL()
                         .then(photoUrl => {
                             imageBlob.push(photoUrl);
-                        })
+                        });
                 });
             })
         );
@@ -115,7 +115,11 @@ export default function AddRestaurantForm(props) {
                 onPress={addRestaurant}
                 buttonStyle={styles.btnAddRestaurant}
             />
-            <Map isVisibleMap={isVisibleMap} setIsVisibleMap={setIsVisibleMap} setLocationRestaurant={setLocationRestaurant} toastRef={toastRef} />
+            <Map isVisibleMap={isVisibleMap}
+                setIsVisibleMap={setIsVisibleMap}
+                setLocationRestaurant={setLocationRestaurant}
+                toastRef={toastRef}
+            />
         </ScrollView>
     );
 
@@ -134,7 +138,7 @@ function ImageRestaurant(props) {
                 style={{ width: widhScreen, height: 380 }}
             />
         </View>
-    )
+    );
 }
 
 function FormAdd(props) {
@@ -142,7 +146,7 @@ function FormAdd(props) {
         setRestaurantAddress,
         setRestaurantDescrition,
         locationRestaurant,
-        setIsVisibleMap } = props
+        setIsVisibleMap } = props;
     return (
         <View styles={styles.viewForm}>
             <Input
@@ -170,11 +174,15 @@ function FormAdd(props) {
                 onChange={e => setRestaurantDescrition(e.nativeEvent.text)}
             />
         </View>
-    )
+    );
 }
 
 function Map(props) {
-    const { isVisibleMap, setIsVisibleMap, setLocationRestaurant, toastRef } = props;
+    const {
+        isVisibleMap,
+        setIsVisibleMap,
+        setLocationRestaurant,
+        toastRef } = props;
     const [location, setLocation] = useState(null);
 
     useEffect(() => {
@@ -182,9 +190,8 @@ function Map(props) {
             const resultPermissions = await Permissions.askAsync(
                 Permissions.LOCATION
             );
-
-
             const statusPermissions = resultPermissions.permissions.location.status;
+
             if (statusPermissions !== "granted") {
                 toastRef.current.show("Debes aceptar los permisos de localización para crear un restaurante"
                     , 3000);
@@ -196,10 +203,10 @@ function Map(props) {
                     longitude: loc.coords.longitude,
                     latitudeDelta: 0.001,
                     longitudeDelta: 0.001
-                })
+                });
             }
-        })()
-    }, [])
+        })();
+    }, []);
 
     const confirmLocation = () => {
         setLocationRestaurant(location);
@@ -265,7 +272,7 @@ function UpdateImage(props) {
                     onPress: () => {
                         setImageSelected(
                             filter(imageSelected, (imageUrl) => imageUrl !== image)
-                        )
+                        );
                     },
                 },
             ],
@@ -296,8 +303,7 @@ function UpdateImage(props) {
                     , 2000)
 
             } else {
-                console.log(result);
-                setImageSelected(result.uri);
+
                 setImageSelected([...imageSelected, result.uri])
 
 
@@ -308,7 +314,7 @@ function UpdateImage(props) {
 
     return (
         <View style={styles.viewImages}>
-            {size(imageSelected) < 5 && (
+            {size(imageSelected) < 4 && (
                 <Icon
                     type="material-community"
                     name="camera"
@@ -326,7 +332,7 @@ function UpdateImage(props) {
                 />
             ))}
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

@@ -20,29 +20,30 @@
       "supportsTablet": false
     },
     "android": {
-      "package": "com.maurokra.cincotenedores",
+      "package": "com.maurokra.cincocubiertos",
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyDNfzt8C8e0ep3eEjaE_LsoC2yNEF2jfGA"
-        },
-        "permissions": [
-          "CAMERA_ROLL",
-          "READ_EXTERNAL_STORAGE",
-          "WRITE_EXTERNAL_STORAGE",
-          "LOCATION",
-          "ACCESS_COARSE_LOCATION",
-          "ACCESS_FINE_LOCATION"
-        ]
+        }
       },
-      "web": {
-        "favicon": "./assets/favicon.png"
-      },
-      "sdkVersion": "38.0.0",
-      "platforms": [
-        "ios",
-        "android",
-        "web"
-      ],
-      "description": ""
-    }
+      "permissions": [
+        "CAMERA_ROLL",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "sdkVersion": "38.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "description": ""
   }
+}
