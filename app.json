@@ -8,7 +8,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#00a680"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,7 +23,7 @@
       "package": "com.maurokra.cincocubiertos",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyDNfzt8C8e0ep3eEjaE_LsoC2yNEF2jfGA"
+          "apiKey": "AIzaSyDcN-atzsh_NWJaZ8p-WHWoYRWnqvN0Hu0"
         }
       },
       "permissions": [
@@ -38,7 +38,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "sdkVersion": "38.0.0",
     "platforms": [
       "ios",
       "android",

@@ -14,8 +14,7 @@ export default function Account() {
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user) => {
-            console.log(user);
-            console.log("llego a Screen/account/account")
+
             !user ? setLogin(false) : setLogin(true);
             /* esto es lo mismo que:
             if (!user){

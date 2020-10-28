@@ -21,7 +21,7 @@ const widhScreen = Dimensions.get("window").width;
 
 
 export default function AddRestaurantForm(props) {
-    const { toastRef, setIsLoading, navigation } = props
+    const { toastRef, setIsLoading, navigation } = props;
 
     const [restaurantName, setRestaurantName] = useState("");
     const [restaurantAddress, setRestaurantAddress] = useState("");
@@ -34,11 +34,11 @@ export default function AddRestaurantForm(props) {
 
     const addRestaurant = () => {
         if (!restaurantName || !restaurantDescrition || !restaurantAddress) {
-            toastRef.current.show("Todos los campos del formulario son obligatorios")
+            toastRef.current.show("Todos los campos del formulario son obligatorios");
         } else if (size(imageSelected) === 0) {
-            toastRef.current.show("el Restaurante tiene que tener al menos una foto.")
+            toastRef.current.show("el Restaurante tiene que tener al menos una foto.");
         } else if (!locationRestaurant) {
-            toastRef.current.show("Tienes que localizar el restaurante en el mapa.")
+            toastRef.current.show("Tienes que localizar el restaurante en el mapa.");
         } else {
 
             setIsLoading(true);
@@ -61,7 +61,7 @@ export default function AddRestaurantForm(props) {
                     })
                     .then(() => {
                         setIsLoading(false);
-                        navigation.navigate("restaurants")
+                        navigation.navigate("restaurants");
                     }).catch(() => {
                         setIsLoading(false);
                         toastRef.current.show("Error al subir el restaurante, intentolo mas tarde!.");
@@ -152,7 +152,7 @@ function FormAdd(props) {
             <Input
                 placeholder="Nombre del Restaurante"
                 containerStyle={styles.input}
-                onChange={e => setRestaurantName(e.nativeEvent.text)}
+                onChange={(e) => setRestaurantName(e.nativeEvent.text)}
             />
 
             <Input
@@ -164,14 +164,14 @@ function FormAdd(props) {
                     onPress: () => setIsVisibleMap(true)
                 }}
                 containerStyle={styles.input}
-                onChange={e => setRestaurantAddress(e.nativeEvent.text)}
+                onChange={(e) => setRestaurantAddress(e.nativeEvent.text)}
             />
             <Input
                 placeholder="Descripción de restaurante"
                 containerStyle={styles.input}
                 multiline={true}
                 inputContainerStyle={styles.textArea}
-                onChange={e => setRestaurantDescrition(e.nativeEvent.text)}
+                onChange={(e) => setRestaurantDescrition(e.nativeEvent.text)}
             />
         </View>
     );
@@ -187,10 +187,8 @@ function Map(props) {
 
     useEffect(() => {
         (async () => {
-            const resultPermissions = await Permissions.askAsync(
-                Permissions.LOCATION
-            );
-            const statusPermissions = resultPermissions.permissions.location.status;
+            const resultPermissions = await Location.requestPermissionsAsync();
+            const statusPermissions = resultPermissions.status;
 
             if (statusPermissions !== "granted") {
                 toastRef.current.show("Debes aceptar los permisos de localización para crear un restaurante"
@@ -212,7 +210,7 @@ function Map(props) {
         setLocationRestaurant(location);
         toastRef.current.show("Localización guarda correctamente");
         setIsVisibleMap(false);
-    }
+    };
 
     return (
         <Modal isVisible={isVisibleMap} setIsVisible={setIsVisibleMap}  >
@@ -250,7 +248,7 @@ function Map(props) {
             </View>
 
         </Modal>
-    )
+    );
 }
 
 function UpdateImage(props) {
@@ -277,8 +275,8 @@ function UpdateImage(props) {
                 },
             ],
             { cancelable: false }
-        )
-    }
+        );
+    };
 
     const imageSelect = async () => {
         const resultPermissions = await Permissions.askAsync(
@@ -286,10 +284,10 @@ function UpdateImage(props) {
         );
 
 
-        if (resultPermissions === "Denied") {
+        if (resultPermissions === "denied") {
             toastRef.current.show(
                 "Es necesario aceptar los permisos de la galeria, si los has rechazado, tiene que ir ajustes y activarlos manualmente."
-                , 3000)
+                , 3000);
 
         } else {
             const result = await ImagePicker.launchImageLibraryAsync({
@@ -300,11 +298,11 @@ function UpdateImage(props) {
             if (result.cancelled) {
                 toastRef.current.show(
                     "Has cerrado la geleria sin seleccionar ninguna imagen"
-                    , 2000)
+                    , 2000);
 
             } else {
 
-                setImageSelected([...imageSelected, result.uri])
+                setImageSelected([...imageSelected, result.uri]);
 
 
             }

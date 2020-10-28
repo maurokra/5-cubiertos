@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { SocialIcon } from "react-native-elements";
-import Login from "../../screens/Account/Login";
 import * as firebase from "firebase";
 import * as Facebook from "expo-facebook";
 import { useNavigation } from "@react-navigation/native";
@@ -16,7 +15,7 @@ export default function LoginFacebook(props) {
         await Facebook.initializeAsync(FacebookApi.application_id);
 
         const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-            Permissions: FacebookApi.permissions
+            Permissions: FacebookApi.permissions,
         });
 
         if (type === "success") {
@@ -27,17 +26,17 @@ export default function LoginFacebook(props) {
                 .signInWithCredential(credentials)
                 .then(() => {
                     setLoading(false);
-                    navigation.navigate("account")
+                    navigation.navigate("account");
                 })
                 .catch(() => {
                     setLoading(false);
-                    toastRef.current.show("Credenciales incorrectas")
-                })
+                    toastRef.current.show("Credenciales incorrectas");
+                });
 
         } else if (type === "cancel") {
-            toastRef.current.show("Inicio de sesión cancelado")
+            toastRef.current.show("Inicio de sesión cancelado");
         } else {
-            toastRef.current.show("Error desconocido. intentelo mas tarde")
+            toastRef.current.show("Error desconocido. intentelo mas tarde");
         }
     };
 
