@@ -7,7 +7,7 @@ import { decode, encode } from "base-64";
 YellowBox.ignoreWarnings(["Setting a timer"]);
 
 if (!global.btoa) global.btoa = encode;
-if (!global.btoa) global.btoa = decode;
+if (!global.atob) global.atob = decode;
 
 export default function App() {
 

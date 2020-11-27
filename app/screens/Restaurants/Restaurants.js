@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Icon } from "react-native-elements";
-import { firebaseApp } from "../../utils/firebase";
 import { useFocusEffect } from "@react-navigation/native";
+import { firebaseApp } from "../../utils/firebase";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import ListRestaurants from "../../components/Restaurants/ListRestaurants";
-
 
 const db = firebase.firestore(firebaseApp);
 
@@ -14,14 +13,14 @@ export default function Restaurants(props) {
     const { navigation } = props;
     const [user, setUser] = useState(null);
     const [restaurants, setRestaurants] = useState([]);
-    const [totalRestaurants, setTotalRestaurants] = useState(0);
-    const [startRestaurant, setStartRestaurant] = useState(null);
-    const [isLoading, setIsLoading] = useState(false)
-    const limitRestaurants = 13;
+    const [totalResaturants, setTotalResaturants] = useState(0);
+    const [startRestaurants, setStartRestaurants] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const limitRestaurants = 10;
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged((userInfo) => {
-            setUser(userInfo)
+            setUser(userInfo);
         });
     }, []);
 
@@ -30,19 +29,21 @@ export default function Restaurants(props) {
             db.collection("restaurants")
                 .get()
                 .then((snap) => {
-                    setTotalRestaurants(snap.size)
+                    setTotalResaturants(snap.size);
                 });
 
             const resultRestaurants = [];
 
             db.collection("restaurants")
                 .orderBy("createAt", "desc")
-                .limit(limitRestaurants).get().then((response) => {
-                    setStartRestaurant(response.docs[response.docs.length - 1]);
+                .limit(limitRestaurants)
+                .get()
+                .then((response) => {
+                    setStartRestaurants(response.docs[response.docs.length - 1]);
 
-                    response.forEach((docs) => {
-                        const restaurant = docs.data();
-                        restaurant.id = docs.id;
+                    response.forEach((doc) => {
+                        const restaurant = doc.data();
+                        restaurant.id = doc.id;
                         resultRestaurants.push(restaurant);
                     });
                     setRestaurants(resultRestaurants);
@@ -50,36 +51,34 @@ export default function Restaurants(props) {
         }, [])
     );
 
-
-
     const handleLoadMore = () => {
         const resultRestaurants = [];
-        restaurants.length < totalRestaurants && setIsLoading(true);
+        restaurants.length < totalResaturants && setIsLoading(true);
 
         db.collection("restaurants")
             .orderBy("createAt", "desc")
-            .startAfter(startRestaurant.data().createAt)
+            .startAfter(startRestaurants.data().createAt)
             .limit(limitRestaurants)
             .get()
-            .then(response => {
+            .then((response) => {
                 if (response.docs.length > 0) {
-                    setStartRestaurant(response.docs[response.docs.length - 1]);
+                    setStartRestaurants(response.docs[response.docs.length - 1]);
                 } else {
                     setIsLoading(false);
-
                 }
+
                 response.forEach((doc) => {
                     const restaurant = doc.data();
                     restaurant.id = doc.id;
                     resultRestaurants.push(restaurant);
                 });
-                setRestaurants([...restaurants, ...resultRestaurants])
-            })
-    }
+
+                setRestaurants([...restaurants, ...resultRestaurants]);
+            });
+    };
 
     return (
-        <View styles={styles.viewBody}>
-
+        <View style={styles.viewBody}>
             <ListRestaurants
                 restaurants={restaurants}
                 handleLoadMore={handleLoadMore}
@@ -107,8 +106,8 @@ const styles = StyleSheet.create({
     },
     btnContainer: {
         position: "absolute",
-        //bottom: -670,
-        right: 15,
+        bottom: 10,
+        right: 10,
         shadowColor: "black",
         shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.5,
